@@ -105,7 +105,7 @@ export default function Auth() {
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Loop Malta
+              Mela Malta
             </CardTitle>
             <CardDescription>
               Join Malta's favourite marketplace

@@ -21,7 +21,7 @@ export default function Sell() {
     <AppLayout>
       <div className="p-4 space-y-6">
         <div>
-          <h1 className="text-2xl font-bold">Sell on Loop Malta</h1>
+          <h1 className="text-2xl font-bold">Sell on Mela Malta</h1>
           <p className="text-muted-foreground">List your items and reach buyers across Malta</p>
         </div>
 

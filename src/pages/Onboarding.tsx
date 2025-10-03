@@ -86,7 +86,7 @@ export default function Onboarding() {
 
       if (brandError) throw brandError;
 
-      toast.success("Welcome to Loop Malta!");
+      toast.success("Welcome to Mela Malta!");
       navigate("/");
     } catch (error: any) {
       toast.error(error.message || "Failed to complete onboarding");
