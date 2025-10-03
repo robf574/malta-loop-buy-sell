@@ -9,6 +9,7 @@ import Onboarding from "./pages/Onboarding";
 import Sell from "./pages/Sell";
 import Wanted from "./pages/Wanted";
 import Events from "./pages/Events";
+import Services from "./pages/Services";
 import Inbox from "./pages/Inbox";
 import Account from "./pages/Account";
 import Notifications from "./pages/Notifications";
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/sell" element={<Sell />} />
           <Route path="/wanted" element={<Wanted />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/services" element={<Services />} />
           <Route path="/inbox" element={<Inbox />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/account" element={<Account />} />

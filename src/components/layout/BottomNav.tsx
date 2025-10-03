@@ -1,4 +1,4 @@
-import { Home, PlusCircle, Search, Calendar, MessageCircle, User } from "lucide-react";
+import { Home, PlusCircle, Search, Wrench, MessageCircle, User } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import NotificationBadge from "@/components/notifications/NotificationBadge";
@@ -7,7 +7,7 @@ const navItems = [
   { icon: Home, label: "Home", path: "/" },
   { icon: PlusCircle, label: "Sell", path: "/sell" },
   { icon: Search, label: "Wanted", path: "/wanted" },
-  { icon: Calendar, label: "Events", path: "/events" },
+  { icon: Wrench, label: "Services", path: "/services" },
   { icon: MessageCircle, label: "Inbox", path: "/inbox" },
   { icon: User, label: "Account", path: "/account" },
 ];

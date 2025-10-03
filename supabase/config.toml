@@ -1,1 +1,7 @@
 project_id = "jjkfjtztlerfuhfdfdwy"
+
+[functions.match-brands]
+verify_jwt = false
+
+[functions.recommend-services]
+verify_jwt = false

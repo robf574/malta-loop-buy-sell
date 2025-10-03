@@ -457,6 +457,63 @@ export type Database = {
         }
         Relationships: []
       }
+      services: {
+        Row: {
+          address: string | null
+          category: Database["public"]["Enums"]["service_category"]
+          created_at: string
+          description: string
+          email: string | null
+          id: string
+          images: string[]
+          locality: string
+          phone: string | null
+          pricing_info: string | null
+          status: Database["public"]["Enums"]["service_status"]
+          title: string
+          updated_at: string
+          user_id: string
+          views_count: number
+          website: string | null
+        }
+        Insert: {
+          address?: string | null
+          category: Database["public"]["Enums"]["service_category"]
+          created_at?: string
+          description: string
+          email?: string | null
+          id?: string
+          images?: string[]
+          locality: string
+          phone?: string | null
+          pricing_info?: string | null
+          status?: Database["public"]["Enums"]["service_status"]
+          title: string
+          updated_at?: string
+          user_id: string
+          views_count?: number
+          website?: string | null
+        }
+        Update: {
+          address?: string | null
+          category?: Database["public"]["Enums"]["service_category"]
+          created_at?: string
+          description?: string
+          email?: string | null
+          id?: string
+          images?: string[]
+          locality?: string
+          phone?: string | null
+          pricing_info?: string | null
+          status?: Database["public"]["Enums"]["service_status"]
+          title?: string
+          updated_at?: string
+          user_id?: string
+          views_count?: number
+          website?: string | null
+        }
+        Relationships: []
+      }
       user_brand_preferences: {
         Row: {
           created_at: string
@@ -578,6 +635,16 @@ export type Database = {
       report_reason: "Counterfeit" | "Inappropriate" | "Spam" | "Other"
       report_status: "Open" | "Actioned" | "Dismissed"
       report_target_type: "item" | "wanted" | "event" | "user" | "message"
+      service_category:
+        | "Tailoring"
+        | "Cobbler"
+        | "Alterations"
+        | "Dry Cleaning"
+        | "Repairs"
+        | "Home Services"
+        | "Beauty Services"
+        | "Other"
+      service_status: "Active" | "Inactive" | "Pending"
       wanted_status: "Active" | "Fulfilled" | "Hidden" | "Deleted"
     }
     CompositeTypes: {
@@ -715,6 +782,17 @@ export const Constants = {
       report_reason: ["Counterfeit", "Inappropriate", "Spam", "Other"],
       report_status: ["Open", "Actioned", "Dismissed"],
       report_target_type: ["item", "wanted", "event", "user", "message"],
+      service_category: [
+        "Tailoring",
+        "Cobbler",
+        "Alterations",
+        "Dry Cleaning",
+        "Repairs",
+        "Home Services",
+        "Beauty Services",
+        "Other",
+      ],
+      service_status: ["Active", "Inactive", "Pending"],
       wanted_status: ["Active", "Fulfilled", "Hidden", "Deleted"],
     },
   },
