@@ -280,6 +280,42 @@ export type Database = {
           },
         ]
       }
+      notifications: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          is_read: boolean
+          related_item_id: string | null
+          related_wanted_ad_id: string | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          related_item_id?: string | null
+          related_wanted_ad_id?: string | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          related_item_id?: string | null
+          related_wanted_ad_id?: string | null
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           auth_provider: Database["public"]["Enums"]["auth_provider"]
@@ -418,6 +454,33 @@ export type Database = {
           name?: string
           uniforms_notes?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      user_brand_preferences: {
+        Row: {
+          created_at: string
+          id: string
+          owned_brands: string[]
+          updated_at: string
+          user_id: string
+          wishlist_brands: string[]
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          owned_brands?: string[]
+          updated_at?: string
+          user_id: string
+          wishlist_brands?: string[]
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          owned_brands?: string[]
+          updated_at?: string
+          user_id?: string
+          wishlist_brands?: string[]
         }
         Relationships: []
       }

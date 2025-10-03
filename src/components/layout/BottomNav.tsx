@@ -1,6 +1,7 @@
 import { Home, PlusCircle, Search, Calendar, MessageCircle, User } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import NotificationBadge from "@/components/notifications/NotificationBadge";
 
 const navItems = [
   { icon: Home, label: "Home", path: "/" },
@@ -26,13 +27,16 @@ export default function BottomNav() {
               key={item.path}
               to={item.path}
               className={cn(
-                "flex flex-col items-center justify-center flex-1 h-full gap-1 transition-smooth",
+                "flex flex-col items-center justify-center flex-1 h-full gap-1 transition-smooth relative",
                 isActive 
                   ? "text-primary" 
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
-              <Icon className={cn("h-5 w-5", isActive && "fill-current")} />
+              <div className="relative">
+                <Icon className={cn("h-5 w-5", isActive && "fill-current")} />
+                {item.path === "/inbox" && <NotificationBadge />}
+              </div>
               <span className="text-xs font-medium">{item.label}</span>
             </Link>
           );

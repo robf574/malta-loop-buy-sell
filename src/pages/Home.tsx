@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Search } from "lucide-react";
 import AppLayout from "@/components/layout/AppLayout";
 import ListingCard from "@/components/listings/ListingCard";
+import NotificationBadge from "@/components/notifications/NotificationBadge";
 import { toast } from "sonner";
 
 interface Listing {
@@ -84,14 +85,24 @@ export default function Home() {
             <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Loop Malta
             </h1>
-            {!user && (
-              <button
-                onClick={() => navigate("/auth")}
-                className="text-sm font-medium text-primary hover:underline"
-              >
-                Sign In
-              </button>
-            )}
+            <div className="flex items-center gap-3">
+              {user && (
+                <button
+                  onClick={() => navigate("/notifications")}
+                  className="p-2 hover:bg-muted rounded-full transition-smooth"
+                >
+                  <NotificationBadge />
+                </button>
+              )}
+              {!user && (
+                <button
+                  onClick={() => navigate("/auth")}
+                  className="text-sm font-medium text-primary hover:underline"
+                >
+                  Sign In
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Search */}
