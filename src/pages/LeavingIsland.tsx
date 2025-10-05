@@ -8,11 +8,18 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon, MapPin, Clock, Users, Package } from "lucide-react";
+import { CalendarIcon, MapPin, Clock, Users, Package, Star, Plus, X, Upload } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import AppLayout from "@/components/layout/AppLayout";
 import { toast } from "sonner";
+
+interface FeaturedItem {
+  name: string;
+  description: string;
+  image_url: string;
+  estimated_value_eur: number;
+}
 
 interface GarageSale {
   id: string;
@@ -25,6 +32,7 @@ interface GarageSale {
   items_count: number;
   created_at: string;
   user_id: string;
+  featured_items?: FeaturedItem[];
 }
 
 export default function LeavingIsland() {
@@ -44,6 +52,8 @@ export default function LeavingIsland() {
     contact_info: "",
     items_count: ""
   });
+
+  const [featuredItems, setFeaturedItems] = useState<FeaturedItem[]>([]);
 
   useEffect(() => {
     // Check auth
@@ -73,7 +83,15 @@ export default function LeavingIsland() {
       setLoading(true);
       const { data, error } = await supabase
         .from("garage_sales")
-        .select("*")
+        .select(`
+          *,
+          featured_items (
+            name,
+            description,
+            image_url,
+            estimated_value_eur
+          )
+        `)
         .order("open_date", { ascending: true });
 
       if (error) throw error;
@@ -86,6 +104,52 @@ export default function LeavingIsland() {
     }
   };
 
+  const addFeaturedItem = () => {
+    if (featuredItems.length >= 5) {
+      toast.error("Maximum 5 featured items allowed");
+      return;
+    }
+    setFeaturedItems([...featuredItems, {
+      name: "",
+      description: "",
+      image_url: "",
+      estimated_value_eur: 0
+    }]);
+  };
+
+  const removeFeaturedItem = (index: number) => {
+    setFeaturedItems(featuredItems.filter((_, i) => i !== index));
+  };
+
+  const updateFeaturedItem = (index: number, field: keyof FeaturedItem, value: string | number) => {
+    const updated = [...featuredItems];
+    updated[index] = { ...updated[index], [field]: value };
+    setFeaturedItems(updated);
+  };
+
+  const handleImageUpload = async (file: File, index: number) => {
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `garage-sale-images/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('garage-sale-images')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from('garage-sale-images')
+        .getPublicUrl(filePath);
+
+      updateFeaturedItem(index, 'image_url', data.publicUrl);
+    } catch (error: any) {
+      toast.error("Failed to upload image");
+      console.error(error);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -95,7 +159,8 @@ export default function LeavingIsland() {
     }
 
     try {
-      const { error } = await supabase
+      // Create garage sale
+      const { data: garageSale, error } = await supabase
         .from("garage_sales")
         .insert({
           title: formData.title,
@@ -106,9 +171,33 @@ export default function LeavingIsland() {
           contact_info: formData.contact_info,
           items_count: parseInt(formData.items_count) || 0,
           user_id: user.id
-        });
+        })
+        .select()
+        .single();
 
       if (error) throw error;
+
+      // Create featured items if any
+      if (featuredItems.length > 0) {
+        const featuredItemsData = featuredItems
+          .filter(item => item.name.trim() !== "")
+          .map((item, index) => ({
+            garage_sale_id: garageSale.id,
+            name: item.name,
+            description: item.description,
+            image_url: item.image_url,
+            estimated_value_eur: item.estimated_value_eur,
+            sort_order: index + 1
+          }));
+
+        if (featuredItemsData.length > 0) {
+          const { error: featuredError } = await supabase
+            .from("featured_items")
+            .insert(featuredItemsData);
+
+          if (featuredError) throw featuredError;
+        }
+      }
 
       toast.success("Garage sale listed successfully!");
       setFormData({
@@ -120,6 +209,7 @@ export default function LeavingIsland() {
         contact_info: "",
         items_count: ""
       });
+      setFeaturedItems([]);
       setShowForm(false);
       fetchGarageSales();
     } catch (error: any) {
@@ -221,6 +311,38 @@ export default function LeavingIsland() {
                       </div>
                     </div>
                   </div>
+
+                  {/* Featured Items Display */}
+                  {sale.featured_items && sale.featured_items.length > 0 && (
+                    <div className="mt-4 pt-4 border-t">
+                      <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                        <Star className="h-4 w-4 text-yellow-500" />
+                        Featured Items
+                      </h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        {sale.featured_items.map((item, index) => (
+                          <div key={index} className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                            {item.image_url && (
+                              <img
+                                src={item.image_url}
+                                alt={item.name}
+                                className="w-12 h-12 object-cover rounded border"
+                              />
+                            )}
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium text-sm truncate">{item.name}</p>
+                              {item.description && (
+                                <p className="text-xs text-muted-foreground truncate">{item.description}</p>
+                              )}
+                              {item.estimated_value_eur > 0 && (
+                                <p className="text-xs font-semibold text-green-600">€{item.estimated_value_eur}</p>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             ))
@@ -331,6 +453,139 @@ export default function LeavingIsland() {
                       placeholder="Phone number or WhatsApp"
                       required
                     />
+                  </div>
+
+                  {/* Featured Items Section */}
+                  <div className="border-t pt-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <div>
+                        <h3 className="text-lg font-semibold flex items-center gap-2">
+                          <Star className="h-5 w-5 text-yellow-500" />
+                          Featured Items (Optional)
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          Highlight your top 5 most valuable items with photos
+                        </p>
+                      </div>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={addFeaturedItem}
+                        disabled={featuredItems.length >= 5}
+                      >
+                        <Plus className="h-4 w-4 mr-1" />
+                        Add Item
+                      </Button>
+                    </div>
+
+                    {featuredItems.map((item, index) => (
+                      <Card key={index} className="mb-4">
+                        <CardHeader className="pb-3">
+                          <div className="flex items-center justify-between">
+                            <CardTitle className="text-base">Featured Item {index + 1}</CardTitle>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => removeFeaturedItem(index)}
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="space-y-3">
+                          <div>
+                            <Label htmlFor={`item-name-${index}`}>Item Name *</Label>
+                            <Input
+                              id={`item-name-${index}`}
+                              value={item.name}
+                              onChange={(e) => updateFeaturedItem(index, 'name', e.target.value)}
+                              placeholder="e.g., Designer Sofa"
+                            />
+                          </div>
+
+                          <div>
+                            <Label htmlFor={`item-desc-${index}`}>Description</Label>
+                            <Textarea
+                              id={`item-desc-${index}`}
+                              value={item.description}
+                              onChange={(e) => updateFeaturedItem(index, 'description', e.target.value)}
+                              placeholder="Describe the item's condition, brand, etc."
+                              rows={2}
+                            />
+                          </div>
+
+                          <div>
+                            <Label htmlFor={`item-value-${index}`}>Estimated Value (€)</Label>
+                            <Input
+                              id={`item-value-${index}`}
+                              type="number"
+                              value={item.estimated_value_eur}
+                              onChange={(e) => updateFeaturedItem(index, 'estimated_value_eur', parseFloat(e.target.value) || 0)}
+                              placeholder="e.g., 500"
+                            />
+                          </div>
+
+                          <div>
+                            <Label>Photo</Label>
+                            <div className="flex items-center gap-4">
+                              {item.image_url ? (
+                                <div className="relative">
+                                  <img
+                                    src={item.image_url}
+                                    alt={item.name}
+                                    className="w-20 h-20 object-cover rounded-lg border"
+                                  />
+                                  <Button
+                                    type="button"
+                                    variant="destructive"
+                                    size="sm"
+                                    className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0"
+                                    onClick={() => updateFeaturedItem(index, 'image_url', '')}
+                                  >
+                                    <X className="h-3 w-3" />
+                                  </Button>
+                                </div>
+                              ) : (
+                                <div className="w-20 h-20 border-2 border-dashed border-muted-foreground/25 rounded-lg flex items-center justify-center">
+                                  <Upload className="h-6 w-6 text-muted-foreground" />
+                                </div>
+                              )}
+                              <div>
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) handleImageUpload(file, index);
+                                  }}
+                                  className="hidden"
+                                  id={`image-upload-${index}`}
+                                />
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => document.getElementById(`image-upload-${index}`)?.click()}
+                                >
+                                  <Upload className="h-4 w-4 mr-1" />
+                                  Upload Photo
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+
+                    {featuredItems.length === 0 && (
+                      <div className="text-center py-8 text-muted-foreground">
+                        <Star className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                        <p>No featured items yet</p>
+                        <p className="text-sm">Add items to highlight your most valuable pieces</p>
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex gap-2 pt-4">
