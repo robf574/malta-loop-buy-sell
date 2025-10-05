@@ -102,62 +102,119 @@ export default function Auth() {
   return (
     <AppLayout showNav={false}>
       <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-        {/* Vintage Travel Poster Style Malta Background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-sky-300 to-blue-400">
-          {/* Sky with flat color blocks */}
-          <div className="absolute inset-0 bg-gradient-to-b from-blue-200 via-blue-300 to-orange-200"></div>
+        {/* Realistic Valletta Malta Background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-sky-200 via-blue-100 to-orange-100">
+          {/* Warm sky with realistic clouds */}
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-100 via-orange-50 to-yellow-100"></div>
           
-          {/* Stylized clouds - flat, geometric shapes */}
-          <div className="absolute top-16 left-16 w-24 h-12 bg-white rounded-full"></div>
-          <div className="absolute top-20 right-24 w-20 h-8 bg-white rounded-full"></div>
-          <div className="absolute top-12 left-1/2 w-16 h-6 bg-white rounded-full"></div>
+          {/* Realistic fluffy clouds */}
+          <div className="absolute top-12 left-16 w-32 h-20 bg-gradient-to-br from-white via-orange-50 to-orange-100 rounded-full opacity-90 shadow-lg"></div>
+          <div className="absolute top-20 right-20 w-28 h-16 bg-gradient-to-bl from-white via-orange-50 to-orange-100 rounded-full opacity-85 shadow-lg"></div>
+          <div className="absolute top-16 left-1/2 w-24 h-14 bg-gradient-to-br from-white via-orange-50 to-orange-100 rounded-full opacity-80 shadow-lg"></div>
+          <div className="absolute top-8 right-1/3 w-20 h-12 bg-gradient-to-bl from-white via-orange-50 to-orange-100 rounded-full opacity-75 shadow-lg"></div>
           
-          {/* Distant headland/cliffs - flat color blocks */}
-          <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-green-600 via-green-500 to-green-400">
-            {/* Rolling hills silhouette */}
-            <div className="absolute top-0 left-0 w-full h-full">
-              <div className="absolute top-0 left-0 w-1/3 h-full bg-green-700 rounded-t-full transform -skew-x-12"></div>
-              <div className="absolute top-0 right-0 w-1/2 h-full bg-green-600 rounded-t-full transform skew-x-8"></div>
-              <div className="absolute top-0 left-1/3 w-1/4 h-full bg-green-500 rounded-t-full"></div>
+          {/* Valletta Cityscape - Golden limestone buildings */}
+          <div className="absolute bottom-0 left-0 w-full h-2/3">
+            {/* Main city buildings - tiered like Valletta */}
+            <div className="absolute bottom-0 left-0 w-full h-full">
+              {/* Lower tier buildings */}
+              <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-amber-800 via-amber-700 to-amber-600">
+                {/* Building facades with windows */}
+                <div className="absolute bottom-0 left-0 w-1/4 h-full bg-gradient-to-t from-amber-900 to-amber-700">
+                  <div className="absolute top-4 left-2 w-2 h-3 bg-amber-800 rounded-sm"></div>
+                  <div className="absolute top-4 left-5 w-2 h-3 bg-amber-800 rounded-sm"></div>
+                  <div className="absolute top-8 left-2 w-2 h-3 bg-amber-800 rounded-sm"></div>
+                  <div className="absolute top-8 left-5 w-2 h-3 bg-amber-800 rounded-sm"></div>
+                </div>
+                <div className="absolute bottom-0 left-1/4 w-1/4 h-full bg-gradient-to-t from-amber-800 to-amber-600">
+                  <div className="absolute top-3 left-2 w-2 h-3 bg-amber-700 rounded-sm"></div>
+                  <div className="absolute top-3 left-5 w-2 h-3 bg-amber-700 rounded-sm"></div>
+                  <div className="absolute top-7 left-2 w-2 h-3 bg-amber-700 rounded-sm"></div>
+                  <div className="absolute top-7 left-5 w-2 h-3 bg-amber-700 rounded-sm"></div>
+                </div>
+                <div className="absolute bottom-0 left-1/2 w-1/4 h-full bg-gradient-to-t from-amber-700 to-amber-500">
+                  <div className="absolute top-2 left-2 w-2 h-3 bg-amber-600 rounded-sm"></div>
+                  <div className="absolute top-2 left-5 w-2 h-3 bg-amber-600 rounded-sm"></div>
+                  <div className="absolute top-6 left-2 w-2 h-3 bg-amber-600 rounded-sm"></div>
+                  <div className="absolute top-6 left-5 w-2 h-3 bg-amber-600 rounded-sm"></div>
+                </div>
+                <div className="absolute bottom-0 right-0 w-1/4 h-full bg-gradient-to-t from-amber-800 to-amber-600">
+                  <div className="absolute top-4 left-2 w-2 h-3 bg-amber-700 rounded-sm"></div>
+                  <div className="absolute top-4 left-5 w-2 h-3 bg-amber-700 rounded-sm"></div>
+                  <div className="absolute top-8 left-2 w-2 h-3 bg-amber-700 rounded-sm"></div>
+                  <div className="absolute top-8 left-5 w-2 h-3 bg-amber-700 rounded-sm"></div>
+                </div>
+              </div>
+              
+              {/* Middle tier buildings */}
+              <div className="absolute bottom-1/3 left-0 w-full h-1/3 bg-gradient-to-t from-amber-700 via-amber-600 to-amber-500">
+                <div className="absolute bottom-0 left-1/6 w-1/5 h-full bg-gradient-to-t from-amber-800 to-amber-600">
+                  <div className="absolute top-3 left-2 w-2 h-3 bg-amber-700 rounded-sm"></div>
+                  <div className="absolute top-3 left-5 w-2 h-3 bg-amber-700 rounded-sm"></div>
+                  <div className="absolute top-7 left-2 w-2 h-3 bg-amber-700 rounded-sm"></div>
+                  <div className="absolute top-7 left-5 w-2 h-3 bg-amber-700 rounded-sm"></div>
+                </div>
+                <div className="absolute bottom-0 right-1/6 w-1/5 h-full bg-gradient-to-t from-amber-800 to-amber-600">
+                  <div className="absolute top-2 left-2 w-2 h-3 bg-amber-700 rounded-sm"></div>
+                  <div className="absolute top-2 left-5 w-2 h-3 bg-amber-700 rounded-sm"></div>
+                  <div className="absolute top-6 left-2 w-2 h-3 bg-amber-700 rounded-sm"></div>
+                  <div className="absolute top-6 left-5 w-2 h-3 bg-amber-700 rounded-sm"></div>
+                </div>
+              </div>
+              
+              {/* Upper tier with iconic dome and spire */}
+              <div className="absolute bottom-2/3 left-0 w-full h-1/3 bg-gradient-to-t from-amber-600 via-amber-500 to-amber-400">
+                {/* St. Paul's Pro-Cathedral Dome */}
+                <div className="absolute bottom-0 left-1/3 w-1/6 h-full">
+                  <div className="absolute bottom-0 left-0 w-full h-3/4 bg-gradient-to-t from-amber-700 to-amber-500 rounded-t-lg">
+                    <div className="absolute top-2 left-2 w-2 h-2 bg-amber-600 rounded-sm"></div>
+                    <div className="absolute top-2 left-5 w-2 h-2 bg-amber-600 rounded-sm"></div>
+                  </div>
+                  <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-gradient-to-b from-blue-400 to-blue-600 rounded-full shadow-lg"></div>
+                  <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1 w-2 h-2 bg-yellow-400 rounded-full"></div>
+                </div>
+                
+                {/* Bell Tower/Spire */}
+                <div className="absolute bottom-0 right-1/3 w-1/12 h-full">
+                  <div className="absolute bottom-0 left-0 w-full h-3/4 bg-gradient-to-t from-amber-700 to-amber-500 rounded-t-lg">
+                    <div className="absolute top-2 left-1 w-1 h-2 bg-amber-600 rounded-sm"></div>
+                    <div className="absolute top-4 left-1 w-1 h-2 bg-amber-600 rounded-sm"></div>
+                  </div>
+                  <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 w-3 h-12 bg-gradient-to-b from-blue-300 to-blue-500 rounded-t-full shadow-lg"></div>
+                  <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1 w-1 h-1 bg-yellow-400 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Mediterranean Sea */}
+          <div className="absolute bottom-0 left-0 w-full h-1/4 bg-gradient-to-t from-blue-700 via-blue-500 to-blue-400">
+            {/* Realistic wave patterns */}
+            <div className="absolute bottom-0 left-0 w-full h-3 bg-gradient-to-t from-blue-800 to-blue-600 rounded-t-full"></div>
+            <div className="absolute bottom-2 left-0 w-full h-2 bg-gradient-to-t from-blue-700 to-blue-500 rounded-t-full"></div>
+            <div className="absolute bottom-4 left-0 w-full h-1 bg-gradient-to-t from-blue-600 to-blue-400 rounded-t-full"></div>
+            
+            {/* Sailboat in foreground */}
+            <div className="absolute bottom-8 left-1/3 w-8 h-6 bg-gradient-to-b from-white to-blue-100 rounded-t-lg shadow-lg">
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1 h-8 bg-amber-600"></div>
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-6 h-4 bg-gradient-to-r from-white to-blue-50 rounded-sm"></div>
             </div>
             
-            {/* White buildings on headland */}
-            <div className="absolute top-4 left-1/4 w-8 h-6 bg-white rounded-sm"></div>
-            <div className="absolute top-6 left-1/3 w-6 h-4 bg-white rounded-sm"></div>
-            <div className="absolute top-3 right-1/3 w-10 h-5 bg-white rounded-sm"></div>
-            <div className="absolute top-5 right-1/4 w-7 h-4 bg-white rounded-sm"></div>
+            {/* Additional small boats */}
+            <div className="absolute bottom-6 right-1/4 w-4 h-3 bg-gradient-to-b from-white to-blue-100 rounded-t-md shadow-md">
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-0.5 h-4 bg-amber-600"></div>
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-3 h-2 bg-gradient-to-r from-white to-blue-50 rounded-sm"></div>
+            </div>
           </div>
-          
-          {/* Sea - flat, calm blue */}
-          <div className="absolute bottom-0 left-0 w-full h-1/4 bg-gradient-to-t from-blue-600 via-blue-500 to-blue-400">
-            {/* Gentle wave lines */}
-            <div className="absolute bottom-0 left-0 w-full h-2 bg-blue-300"></div>
-            <div className="absolute bottom-2 left-0 w-full h-1 bg-blue-200"></div>
-          </div>
-          
-          {/* Beach - warm sandy color */}
-          <div className="absolute bottom-0 left-0 w-full h-1/6 bg-gradient-to-t from-amber-200 via-yellow-100 to-yellow-50">
-            {/* Beach curves */}
-            <div className="absolute bottom-0 left-0 w-2/3 h-full bg-gradient-to-r from-amber-300 to-yellow-100 rounded-tr-full"></div>
-          </div>
-          
-          {/* Small boats on beach */}
-          <div className="absolute bottom-4 left-1/4 w-6 h-3 bg-stone-800 rounded-sm"></div>
-          <div className="absolute bottom-6 right-1/3 w-4 h-2 bg-stone-700 rounded-sm"></div>
-          
-          {/* Buoys/floats in water */}
-          <div className="absolute bottom-8 left-1/3 w-2 h-2 bg-red-500 rounded-full"></div>
-          <div className="absolute bottom-10 right-1/4 w-2 h-2 bg-blue-500 rounded-full"></div>
-          <div className="absolute bottom-6 left-1/2 w-2 h-2 bg-orange-500 rounded-full"></div>
         </div>
         
         <Card className="w-full max-w-md relative z-10 bg-white shadow-2xl border-2 border-white">
           <CardHeader className="text-center bg-gradient-to-b from-blue-50 to-white">
-            <CardTitle className="text-4xl font-black text-blue-800 tracking-wide">
+            <CardTitle className="text-4xl font-black text-amber-800 tracking-wide">
               MELA MALTA
             </CardTitle>
-            <CardDescription className="text-blue-600 font-medium text-lg">
-              Malta's Beautiful Marketplace
+            <CardDescription className="text-amber-600 font-medium text-lg">
+              Valletta's Beautiful Marketplace
             </CardDescription>
           </CardHeader>
 
