@@ -14,7 +14,6 @@ serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const lovableApiKey = Deno.env.get('LOVABLE_API_KEY')!;
     
     const supabase = createClient(supabaseUrl, supabaseKey);
     
@@ -51,32 +50,25 @@ serve(async (req) => {
       throw new Error('Item not found');
     }
 
-    // Use AI to extract brand from title/description
-    const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${lovableApiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'google/gemini-2.5-flash',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are a brand recognition expert. Extract the fashion brand name from the given text. Return only the brand name, nothing else. If no recognizable brand is found, return "UNKNOWN".'
-          },
-          {
-            role: 'user',
-            content: `Title: ${title}\nDescription: ${itemData.description || ''}`
-          }
-        ],
-      }),
-    });
-
-    const aiData = await aiResponse.json();
-    brandToMatch = aiData.choices?.[0]?.message?.content?.trim() || 'UNKNOWN';
+    // Simple brand extraction from title/description using common brand patterns
+    const commonBrands = [
+      'Nike', 'Adidas', 'Puma', 'Reebok', 'Converse', 'Vans', 'New Balance',
+      'Apple', 'Samsung', 'Sony', 'Microsoft', 'Google', 'Dell', 'HP',
+      'Louis Vuitton', 'Gucci', 'Chanel', 'Prada', 'Versace', 'Armani',
+      'Zara', 'H&M', 'Uniqlo', 'Gap', 'Levi\'s', 'Calvin Klein', 'Tommy Hilfiger'
+    ];
     
-    console.log('AI detected brand:', brandToMatch);
+    const titleAndDesc = `${title} ${itemData.description || ''}`.toLowerCase();
+    let brandToMatch = 'UNKNOWN';
+    
+    for (const brand of commonBrands) {
+      if (titleAndDesc.includes(brand.toLowerCase())) {
+        brandToMatch = brand;
+        break;
+      }
+    }
+    
+    console.log('Brand detected:', brandToMatch);
 
     if (brandToMatch === 'UNKNOWN') {
       return new Response(

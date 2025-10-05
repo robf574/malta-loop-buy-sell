@@ -33,47 +33,26 @@ serve(async (req) => {
 
     if (servicesError) throw servicesError;
 
-    const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
-    if (!lovableApiKey) {
-      throw new Error("LOVABLE_API_KEY is not configured");
+    // Simple keyword-based matching instead of AI
+    const queryLower = query.toLowerCase();
+    const matchingServices = services?.filter(service => 
+      service.title.toLowerCase().includes(queryLower) ||
+      service.description.toLowerCase().includes(queryLower) ||
+      service.category.toLowerCase().includes(queryLower) ||
+      service.locality.toLowerCase().includes(queryLower)
+    ) || [];
+
+    let recommendation = "No matching services found.";
+    
+    if (matchingServices.length > 0) {
+      const topMatches = matchingServices.slice(0, 3);
+      recommendation = `Based on your search for "${query}", here are some recommended services:\n\n` +
+        topMatches.map(service => 
+          `• ${service.title} (${service.category})\n  ${service.description}\n  Location: ${service.locality}`
+        ).join('\n\n');
     }
 
-    const systemPrompt = `You are a helpful assistant for Mela Malta, a local services marketplace in Malta. 
-Your role is to recommend services based on user queries. Analyze the available services and provide helpful recommendations.
-Be friendly, concise, and focus on matching the user's needs with the best available services.`;
-
-    const userPrompt = `User is looking for: "${query}"
-
-Available services:
-${services?.map(s => `- ${s.title} (${s.category}): ${s.description} in ${s.locality}`).join('\n')}
-
-Provide a helpful recommendation with 2-3 specific service suggestions that match their needs.`;
-
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${lovableApiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: userPrompt },
-        ],
-      }),
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("AI gateway error:", response.status, errorText);
-      throw new Error("Failed to get AI recommendations");
-    }
-
-    const data = await response.json();
-    const recommendation = data.choices[0]?.message?.content || "No recommendations available";
-
-    console.log("AI recommendation generated for query:", query);
+    console.log("Service recommendation generated for query:", query);
 
     return new Response(
       JSON.stringify({ recommendation }),
