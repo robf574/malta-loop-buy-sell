@@ -9,6 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useRequireAuth } from "@/hooks/useAuth";
 import { Profile } from "@/types";
 import { LoadingProfile, LoadingCard } from "@/components/ui/LoadingStates";
+import { SectionHeader, CardHeader } from "@/components/ui/Headers";
 
 export default function Account() {
   const { user, profile, signOut, refreshProfile } = useAuth();
@@ -56,6 +57,8 @@ export default function Account() {
   return (
     <AppLayout>
       <div className="p-4 space-y-6">
+        <SectionHeader title="Account" />
+
         {/* Profile Header */}
         <Card>
           <CardHeader className="text-center">

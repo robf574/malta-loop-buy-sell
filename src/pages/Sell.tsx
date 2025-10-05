@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Package, Plus, Plane } from "lucide-react";
 import { Link } from "react-router-dom";
 import AppLayout from "@/components/layout/AppLayout";
+import { SectionHeader, CardHeader } from "@/components/ui/Headers";
 
 export default function Sell() {
   const navigate = useNavigate();
@@ -19,20 +20,17 @@ export default function Sell() {
   }, [navigate]);
 
   return (
-    <AppLayout>
-      <div className="p-4 space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold">Sell on Mela Malta</h1>
-          <p className="text-muted-foreground">List your items and reach buyers across Malta</p>
-        </div>
+        <AppLayout>
+          <div className="p-4 space-y-6">
+            <SectionHeader 
+              title="Sell on Mela Malta" 
+              subtitle="List your items and reach buyers across Malta"
+            />
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Create a New Listing</CardTitle>
-            <CardDescription>
-              Share photos and details to attract buyers
-            </CardDescription>
-          </CardHeader>
+            <Card>
+              <CardHeader>
+                <CardHeader title="Create a New Listing" subtitle="Share photos and details to attract buyers" />
+              </CardHeader>
           <CardContent>
             <Button className="w-full" size="lg">
               <Plus className="mr-2 h-5 w-5" />
@@ -41,16 +39,13 @@ export default function Sell() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Plane className="h-5 w-5 text-primary" />
-              Leaving the Island?
-            </CardTitle>
-            <CardDescription>
-              Sell everything at once with a garage sale listing
-            </CardDescription>
-          </CardHeader>
+            <Card>
+              <CardHeader>
+                <CardHeader 
+                  title="Leaving the Island?" 
+                  subtitle="Sell everything at once with a garage sale listing"
+                />
+              </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground mb-4">
               Perfect for people moving away from Malta. Set an open day where buyers can come and purchase all your belongings at once.
@@ -64,13 +59,10 @@ export default function Sell() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>My Active Listings</CardTitle>
-            <CardDescription>
-              Manage your current listings
-            </CardDescription>
-          </CardHeader>
+            <Card>
+              <CardHeader>
+                <CardHeader title="My Active Listings" subtitle="Manage your current listings" />
+              </CardHeader>
           <CardContent>
             <div className="text-center py-8 text-muted-foreground">
               <Package className="h-12 w-12 mx-auto mb-2 opacity-50" />

@@ -7,6 +7,7 @@ import { Search } from "lucide-react";
 import AppLayout from "@/components/layout/AppLayout";
 import ListingCard from "@/components/listings/ListingCard";
 import NotificationBadge from "@/components/notifications/NotificationBadge";
+import { PageHeader } from "@/components/ui/Headers";
 import { toast } from "sonner";
 
 interface Listing {
@@ -82,9 +83,11 @@ export default function Home() {
       <div className="sticky top-0 z-40 bg-background border-b border-border safe-top">
         <div className="p-4 space-y-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Mela Malta
-            </h1>
+            <PageHeader 
+              title="MELA MALTA" 
+              subtitle="Valletta's Beautiful Marketplace"
+              className="text-left"
+            />
             <div className="flex items-center gap-3">
               {user && (
                 <button

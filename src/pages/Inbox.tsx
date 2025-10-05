@@ -3,6 +3,7 @@ import { MessageCircle } from "lucide-react";
 import AppLayout from "@/components/layout/AppLayout";
 import { useRequireAuth } from "@/hooks/useAuth";
 import { LoadingCard } from "@/components/ui/LoadingStates";
+import { SectionHeader } from "@/components/ui/Headers";
 
 export default function Inbox() {
   const { loading } = useRequireAuth();
@@ -11,7 +12,7 @@ export default function Inbox() {
     return (
       <AppLayout>
         <div className="p-4">
-          <h1 className="text-2xl font-bold mb-4">Messages</h1>
+          <SectionHeader title="Messages" />
           <LoadingCard />
         </div>
       </AppLayout>
@@ -21,7 +22,7 @@ export default function Inbox() {
   return (
     <AppLayout>
       <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4">Messages</h1>
+        <SectionHeader title="Messages" />
 
         <Card>
           <CardContent className="pt-6 text-center text-muted-foreground">

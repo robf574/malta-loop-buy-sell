@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import AppLayout from "@/components/layout/AppLayout";
 import { toast } from "sonner";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { SectionHeader, CardHeader } from "@/components/ui/Headers";
 
 interface FeaturedItem {
   name: string;
@@ -249,10 +250,10 @@ export default function LeavingIsland() {
       <div className="container mx-auto px-4 py-6 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">Leaving the Island</h1>
-          <p className="text-muted-foreground mb-6">
-            List your garage sale for people leaving Malta. Set an open day where buyers can come and purchase everything at once.
-          </p>
+          <SectionHeader 
+            title="Leaving the Island" 
+            subtitle="List your garage sale for people leaving Malta. Set an open day where buyers can come and purchase everything at once."
+          />
           <Button onClick={() => setShowForm(true)} className="mb-6">
             <Package className="mr-2 h-4 w-4" />
             List Your Garage Sale
