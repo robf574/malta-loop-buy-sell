@@ -102,47 +102,62 @@ export default function Auth() {
   return (
     <AppLayout showNav={false}>
       <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-        {/* Malta Landscape Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-sky-300 via-blue-400 to-blue-600">
-          {/* Sky */}
-          <div className="absolute inset-0 bg-gradient-to-b from-sky-200 via-blue-300 to-blue-500"></div>
+        {/* Vintage Travel Poster Style Malta Background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-sky-300 to-blue-400">
+          {/* Sky with flat color blocks */}
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-200 via-blue-300 to-orange-200"></div>
           
-          {/* Clouds */}
-          <div className="absolute top-10 left-10 w-32 h-16 bg-white/30 rounded-full blur-sm"></div>
-          <div className="absolute top-20 right-20 w-24 h-12 bg-white/25 rounded-full blur-sm"></div>
-          <div className="absolute top-16 left-1/3 w-20 h-10 bg-white/20 rounded-full blur-sm"></div>
+          {/* Stylized clouds - flat, geometric shapes */}
+          <div className="absolute top-16 left-16 w-24 h-12 bg-white rounded-full"></div>
+          <div className="absolute top-20 right-24 w-20 h-8 bg-white rounded-full"></div>
+          <div className="absolute top-12 left-1/2 w-16 h-6 bg-white rounded-full"></div>
           
-          {/* Headland/Rock Formation */}
-          <div className="absolute bottom-0 left-0 w-full h-2/3 bg-gradient-to-t from-amber-800 via-amber-700 to-amber-600">
-            {/* Rock formations */}
-            <div className="absolute bottom-0 left-1/4 w-32 h-40 bg-gradient-to-t from-stone-700 to-stone-600 rounded-t-full transform -skew-x-12"></div>
-            <div className="absolute bottom-0 right-1/3 w-24 h-32 bg-gradient-to-t from-stone-800 to-stone-700 rounded-t-full transform skew-x-12"></div>
-            <div className="absolute bottom-0 left-1/2 w-20 h-28 bg-gradient-to-t from-stone-600 to-stone-500 rounded-t-full transform -skew-x-6"></div>
-            
-            {/* Sea waves */}
-            <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-blue-600 via-blue-500 to-blue-400">
-              <div className="absolute bottom-0 left-0 w-full h-4 bg-gradient-to-t from-blue-700 to-blue-600 rounded-t-full"></div>
+          {/* Distant headland/cliffs - flat color blocks */}
+          <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-green-600 via-green-500 to-green-400">
+            {/* Rolling hills silhouette */}
+            <div className="absolute top-0 left-0 w-full h-full">
+              <div className="absolute top-0 left-0 w-1/3 h-full bg-green-700 rounded-t-full transform -skew-x-12"></div>
+              <div className="absolute top-0 right-0 w-1/2 h-full bg-green-600 rounded-t-full transform skew-x-8"></div>
+              <div className="absolute top-0 left-1/3 w-1/4 h-full bg-green-500 rounded-t-full"></div>
             </div>
             
-            {/* Additional rock details */}
-            <div className="absolute bottom-8 left-1/6 w-16 h-20 bg-gradient-to-t from-amber-900 to-amber-800 rounded-t-full transform -skew-x-6"></div>
-            <div className="absolute bottom-12 right-1/4 w-12 h-16 bg-gradient-to-t from-stone-900 to-stone-800 rounded-t-full transform skew-x-8"></div>
+            {/* White buildings on headland */}
+            <div className="absolute top-4 left-1/4 w-8 h-6 bg-white rounded-sm"></div>
+            <div className="absolute top-6 left-1/3 w-6 h-4 bg-white rounded-sm"></div>
+            <div className="absolute top-3 right-1/3 w-10 h-5 bg-white rounded-sm"></div>
+            <div className="absolute top-5 right-1/4 w-7 h-4 bg-white rounded-sm"></div>
           </div>
           
-          {/* Sea reflection */}
-          <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-blue-800 via-blue-700 to-blue-600 opacity-80"></div>
+          {/* Sea - flat, calm blue */}
+          <div className="absolute bottom-0 left-0 w-full h-1/4 bg-gradient-to-t from-blue-600 via-blue-500 to-blue-400">
+            {/* Gentle wave lines */}
+            <div className="absolute bottom-0 left-0 w-full h-2 bg-blue-300"></div>
+            <div className="absolute bottom-2 left-0 w-full h-1 bg-blue-200"></div>
+          </div>
           
-          {/* Overlay for better text readability */}
-          <div className="absolute inset-0 bg-black/20"></div>
+          {/* Beach - warm sandy color */}
+          <div className="absolute bottom-0 left-0 w-full h-1/6 bg-gradient-to-t from-amber-200 via-yellow-100 to-yellow-50">
+            {/* Beach curves */}
+            <div className="absolute bottom-0 left-0 w-2/3 h-full bg-gradient-to-r from-amber-300 to-yellow-100 rounded-tr-full"></div>
+          </div>
+          
+          {/* Small boats on beach */}
+          <div className="absolute bottom-4 left-1/4 w-6 h-3 bg-stone-800 rounded-sm"></div>
+          <div className="absolute bottom-6 right-1/3 w-4 h-2 bg-stone-700 rounded-sm"></div>
+          
+          {/* Buoys/floats in water */}
+          <div className="absolute bottom-8 left-1/3 w-2 h-2 bg-red-500 rounded-full"></div>
+          <div className="absolute bottom-10 right-1/4 w-2 h-2 bg-blue-500 rounded-full"></div>
+          <div className="absolute bottom-6 left-1/2 w-2 h-2 bg-orange-500 rounded-full"></div>
         </div>
         
-        <Card className="w-full max-w-md relative z-10 bg-white/95 backdrop-blur-sm shadow-2xl">
-          <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Mela Malta
+        <Card className="w-full max-w-md relative z-10 bg-white shadow-2xl border-2 border-white">
+          <CardHeader className="text-center bg-gradient-to-b from-blue-50 to-white">
+            <CardTitle className="text-4xl font-black text-blue-800 tracking-wide">
+              MELA MALTA
             </CardTitle>
-            <CardDescription className="text-muted-foreground">
-              Welcome to Malta's beautiful marketplace
+            <CardDescription className="text-blue-600 font-medium text-lg">
+              Malta's Beautiful Marketplace
             </CardDescription>
           </CardHeader>
 
