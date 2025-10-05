@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import Onboarding from "./pages/Onboarding";
@@ -17,11 +18,27 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// GitHub Pages redirect handling
+const GitHubPagesRedirect = () => {
+  useEffect(() => {
+    // Check if we're on GitHub Pages and need to redirect
+    if (window.location.pathname.includes('/?/')) {
+      const path = window.location.pathname.split('/?/')[1];
+      if (path) {
+        window.history.replaceState(null, '', '/' + path);
+      }
+    }
+  }, []);
+  
+  return null;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <GitHubPagesRedirect />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
