@@ -1,151 +1,130 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOut, Settings, Package, Heart, Calendar, Star } from "lucide-react";
 import AppLayout from "@/components/layout/AppLayout";
-import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
+import { useRequireAuth } from "@/hooks/useAuth";
+import { Profile } from "@/types";
 
 export default function Account() {
-  const navigate = useNavigate();
-  const [user, setUser] = useState<any>(null);
-  const [profile, setProfile] = useState<any>(null);
+  const { user, profile, signOut, refreshProfile } = useAuth();
+  const { loading } = useRequireAuth();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) {
-        navigate("/auth");
-        return;
-      }
-      setUser(session.user);
-      fetchProfile(session.user.id);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (!session) {
-        navigate("/auth");
-      } else {
-        setUser(session.user);
-        fetchProfile(session.user.id);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [navigate]);
-
-  const fetchProfile = async (userId: string) => {
-    try {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", userId)
-        .single();
-
-      if (error) throw error;
-      setProfile(data);
-    } catch (error: any) {
-      console.error("Error fetching profile:", error);
+    if (user) {
+      refreshProfile();
     }
-  };
+  }, [user, refreshProfile]);
 
   const handleSignOut = async () => {
     try {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
-      toast.success("Signed out successfully");
-      navigate("/auth");
-    } catch (error: any) {
-      toast.error("Failed to sign out");
+      await signOut();
+    } catch (error) {
+      // Error handling is done in the context
     }
   };
 
-  if (!user || !profile) {
+  if (loading) {
     return (
       <AppLayout>
-        <div className="flex items-center justify-center min-h-screen">
-          <p className="text-muted-foreground">Loading...</p>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+            <p className="mt-2 text-muted-foreground">Loading...</p>
+          </div>
         </div>
       </AppLayout>
     );
   }
 
-  const initials = profile.name
-    ?.split(" ")
-    .map((n: string) => n[0])
-    .join("")
-    .toUpperCase() || "U";
+  if (!user || !profile) {
+    return (
+      <AppLayout>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <p className="text-muted-foreground">Unable to load profile</p>
+          </div>
+        </div>
+      </AppLayout>
+    );
+  }
 
   return (
     <AppLayout>
       <div className="p-4 space-y-6">
         {/* Profile Header */}
         <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-4">
+          <CardHeader className="text-center">
+            <div className="flex flex-col items-center space-y-4">
               <Avatar className="h-20 w-20">
                 <AvatarImage src={profile.avatar_url} />
-                <AvatarFallback className="bg-primary text-primary-foreground text-2xl">
-                  {initials}
+                <AvatarFallback className="text-lg">
+                  {profile.username?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
-              <div className="flex-1">
-                <h2 className="text-xl font-bold">{profile.name}</h2>
-                <p className="text-sm text-muted-foreground">@{profile.username}</p>
-                {profile.localities && profile.localities.length > 0 && (
-                  <p className="text-sm text-muted-foreground mt-1">
-                    {profile.localities[0]}
-                  </p>
-                )}
+              <div>
+                <h1 className="text-2xl font-bold">{profile.username || "User"}</h1>
+                <p className="text-muted-foreground">{user.email}</p>
+                <p className="text-sm text-muted-foreground">{profile.locality}</p>
               </div>
             </div>
-
-            <Button
-              variant="outline"
-              className="w-full mt-4"
-              onClick={() => navigate("/settings")}
-            >
-              <Settings className="mr-2 h-4 w-4" />
-              Edit Profile
-            </Button>
-          </CardContent>
+          </CardHeader>
         </Card>
+
+        {/* Stats */}
+        <div className="grid grid-cols-2 gap-4">
+          <Card>
+            <CardContent className="pt-6 text-center">
+              <Package className="h-8 w-8 mx-auto mb-2 text-primary" />
+              <p className="text-2xl font-bold">0</p>
+              <p className="text-sm text-muted-foreground">Listings</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-6 text-center">
+              <Heart className="h-8 w-8 mx-auto mb-2 text-primary" />
+              <p className="text-2xl font-bold">0</p>
+              <p className="text-sm text-muted-foreground">Favorites</p>
+            </CardContent>
+          </Card>
+        </div>
 
         {/* Quick Actions */}
         <Card>
           <CardHeader>
-            <CardTitle>My Activity</CardTitle>
+            <CardTitle>Quick Actions</CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-2 gap-3">
-            <Button variant="outline" className="h-20 flex-col gap-2">
-              <Package className="h-5 w-5" />
-              <span className="text-xs">My Listings</span>
+          <CardContent className="space-y-3">
+            <Button variant="outline" className="w-full justify-start">
+              <Settings className="mr-2 h-4 w-4" />
+              Account Settings
             </Button>
-            <Button variant="outline" className="h-20 flex-col gap-2">
-              <Heart className="h-5 w-5" />
-              <span className="text-xs">Favorites</span>
+            <Button variant="outline" className="w-full justify-start">
+              <Calendar className="mr-2 h-4 w-4" />
+              My Events
             </Button>
-            <Button variant="outline" className="h-20 flex-col gap-2">
-              <Calendar className="h-5 w-5" />
-              <span className="text-xs">My Events</span>
-            </Button>
-            <Button variant="outline" className="h-20 flex-col gap-2">
-              <Star className="h-5 w-5" />
-              <span className="text-xs">Reviews</span>
+            <Button variant="outline" className="w-full justify-start">
+              <Star className="mr-2 h-4 w-4" />
+              Reviews
             </Button>
           </CardContent>
         </Card>
 
         {/* Sign Out */}
-        <Button
-          variant="destructive"
-          className="w-full"
-          onClick={handleSignOut}
-        >
-          <LogOut className="mr-2 h-4 w-4" />
-          Sign Out
-        </Button>
+        <Card>
+          <CardContent className="pt-6">
+            <Button 
+              variant="destructive" 
+              className="w-full" 
+              onClick={handleSignOut}
+            >
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign Out
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     </AppLayout>
   );
