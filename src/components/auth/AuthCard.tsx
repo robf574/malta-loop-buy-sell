@@ -8,7 +8,7 @@ interface AuthCardProps {
 export const AuthCard: React.FC<AuthCardProps> = ({ children }) => {
   return (
     <Card className="w-full max-w-md relative z-10 bg-white shadow-2xl border-2 border-white">
-      <CardHeader className="text-center bg-gradient-to-b from-blue-50 to-white">
+      <CardHeader className="text-center bg-gradient-to-b from-amber-50 to-white">
         <CardTitle className="text-4xl font-black text-amber-800 tracking-wide">
           MELA MALTA
         </CardTitle>
