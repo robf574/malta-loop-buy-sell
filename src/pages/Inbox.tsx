@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { MessageCircle } from "lucide-react";
 import AppLayout from "@/components/layout/AppLayout";
 import { useRequireAuth } from "@/hooks/useAuth";
+import { LoadingCard } from "@/components/ui/LoadingStates";
 
 export default function Inbox() {
   const { loading } = useRequireAuth();
@@ -9,11 +10,9 @@ export default function Inbox() {
   if (loading) {
     return (
       <AppLayout>
-        <div className="flex items-center justify-center min-h-[400px]">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-            <p className="mt-2 text-muted-foreground">Loading...</p>
-          </div>
+        <div className="p-4">
+          <h1 className="text-2xl font-bold mb-4">Messages</h1>
+          <LoadingCard />
         </div>
       </AppLayout>
     );

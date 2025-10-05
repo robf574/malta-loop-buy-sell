@@ -3,6 +3,7 @@ import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Profile } from '@/types';
+import { analytics } from '@/lib/analytics';
 
 interface AuthContextType {
   user: User | null;
@@ -43,6 +44,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
+        analytics.setUserId(session.user.id);
         fetchProfile(session.user.id);
       }
       setLoading(false);
@@ -55,8 +57,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setUser(session?.user ?? null);
         
         if (session?.user) {
+          analytics.setUserId(session.user.id);
           await fetchProfile(session.user.id);
         } else {
+          analytics.clearUserId();
           setProfile(null);
         }
         
@@ -98,8 +102,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
 
       if (error) throw error;
+      analytics.trackUserSignup('email');
       toast.success('Account created! Please check your email to verify.');
     } catch (error: any) {
+      analytics.trackError(error, 'signup');
       toast.error(error.message || 'Failed to sign up');
       throw error;
     }
@@ -113,8 +119,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
 
       if (error) throw error;
+      analytics.trackUserLogin('email');
       toast.success('Welcome back!');
     } catch (error: any) {
+      analytics.trackError(error, 'signin');
       toast.error(error.message || 'Failed to sign in');
       throw error;
     }
@@ -124,8 +132,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
+      analytics.trackUserLogout();
       toast.success('Signed out successfully');
     } catch (error: any) {
+      analytics.trackError(error, 'signout');
       toast.error('Failed to sign out');
       throw error;
     }
@@ -141,7 +151,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
 
       if (error) throw error;
+      analytics.trackUserLogin('google');
     } catch (error: any) {
+      analytics.trackError(error, 'google_signin');
       toast.error(error.message || 'Failed to sign in with Google');
       throw error;
     }
@@ -157,7 +169,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
 
       if (error) throw error;
+      analytics.trackUserLogin('facebook');
     } catch (error: any) {
+      analytics.trackError(error, 'facebook_signin');
       toast.error(error.message || 'Failed to sign in with Facebook');
       throw error;
     }

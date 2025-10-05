@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,7 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import AppLayout from "@/components/layout/AppLayout";
 import { toast } from "sonner";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 interface FeaturedItem {
   name: string;
@@ -78,7 +79,7 @@ export default function LeavingIsland() {
     return () => subscription.unsubscribe();
   }, [navigate]);
 
-  const fetchGarageSales = async () => {
+  const fetchGarageSales = useCallback(async () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
@@ -102,30 +103,32 @@ export default function LeavingIsland() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const addFeaturedItem = () => {
+  const addFeaturedItem = useCallback(() => {
     if (featuredItems.length >= 5) {
       toast.error("Maximum 5 featured items allowed");
       return;
     }
-    setFeaturedItems([...featuredItems, {
+    setFeaturedItems(prev => [...prev, {
       name: "",
       description: "",
       image_url: "",
       estimated_value_eur: 0
     }]);
-  };
+  }, [featuredItems.length]);
 
-  const removeFeaturedItem = (index: number) => {
-    setFeaturedItems(featuredItems.filter((_, i) => i !== index));
-  };
+  const removeFeaturedItem = useCallback((index: number) => {
+    setFeaturedItems(prev => prev.filter((_, i) => i !== index));
+  }, []);
 
-  const updateFeaturedItem = (index: number, field: keyof FeaturedItem, value: string | number) => {
-    const updated = [...featuredItems];
-    updated[index] = { ...updated[index], [field]: value };
-    setFeaturedItems(updated);
-  };
+  const updateFeaturedItem = useCallback((index: number, field: keyof FeaturedItem, value: string | number) => {
+    setFeaturedItems(prev => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], [field]: value };
+      return updated;
+    });
+  }, []);
 
   const handleImageUpload = async (file: File, index: number) => {
     try {
@@ -218,19 +221,25 @@ export default function LeavingIsland() {
     }
   };
 
-  const formatDate = (dateString: string) => {
+  const formatDate = useCallback((dateString: string) => {
     return format(new Date(dateString), "MMM dd, yyyy");
-  };
+  }, []);
+
+  // Memoize expensive computations
+  const sortedGarageSales = useMemo(() => {
+    return [...garageSales].sort((a, b) => 
+      new Date(a.open_date).getTime() - new Date(b.open_date).getTime()
+    );
+  }, [garageSales]);
+
+  const hasFeaturedItems = useMemo(() => {
+    return featuredItems.some(item => item.name.trim() !== "");
+  }, [featuredItems]);
 
   if (loading) {
     return (
       <AppLayout>
-        <div className="flex items-center justify-center min-h-[400px]">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading garage sales...</p>
-          </div>
-        </div>
+        <LoadingSpinner size="lg" text="Loading garage sales..." />
       </AppLayout>
     );
   }
@@ -250,9 +259,9 @@ export default function LeavingIsland() {
           </Button>
         </div>
 
-        {/* Garage Sales List */}
-        <div className="space-y-4">
-          {garageSales.length === 0 ? (
+            {/* Garage Sales List */}
+            <div className="space-y-4">
+              {sortedGarageSales.length === 0 ? (
             <Card>
               <CardContent className="text-center py-8">
                 <Package className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
@@ -265,8 +274,8 @@ export default function LeavingIsland() {
                 </Button>
               </CardContent>
             </Card>
-          ) : (
-            garageSales.map((sale) => (
+              ) : (
+                sortedGarageSales.map((sale) => (
               <Card key={sale.id} className="hover:shadow-md transition-shadow">
                 <CardHeader>
                   <div className="flex justify-between items-start">

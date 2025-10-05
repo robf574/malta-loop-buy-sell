@@ -8,6 +8,7 @@ import AppLayout from "@/components/layout/AppLayout";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRequireAuth } from "@/hooks/useAuth";
 import { Profile } from "@/types";
+import { LoadingProfile, LoadingCard } from "@/components/ui/LoadingStates";
 
 export default function Account() {
   const { user, profile, signOut, refreshProfile } = useAuth();
@@ -32,11 +33,9 @@ export default function Account() {
   if (loading) {
     return (
       <AppLayout>
-        <div className="flex items-center justify-center min-h-[400px]">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-            <p className="mt-2 text-muted-foreground">Loading...</p>
-          </div>
+        <div className="p-4 space-y-6">
+          <LoadingProfile />
+          <LoadingCard />
         </div>
       </AppLayout>
     );

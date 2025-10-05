@@ -2,6 +2,7 @@ import { Home, PlusCircle, Search, Wrench, MessageCircle, User, Plane } from "lu
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import NotificationBadge from "@/components/notifications/NotificationBadge";
+import { memo } from "react";
 
 const navItems = [
   { icon: Home, label: "Home", path: "/" },
@@ -11,9 +12,9 @@ const navItems = [
   { icon: Plane, label: "Leaving", path: "/leaving-island" },
   { icon: MessageCircle, label: "Inbox", path: "/inbox" },
   { icon: User, label: "Account", path: "/account" },
-];
+] as const;
 
-export default function BottomNav() {
+const BottomNav = memo(() => {
   const location = useLocation();
 
   return (
@@ -29,8 +30,8 @@ export default function BottomNav() {
               to={item.path}
               className={cn(
                 "flex flex-col items-center justify-center flex-1 h-full gap-1 transition-smooth relative",
-                isActive 
-                  ? "text-primary" 
+                isActive
+                  ? "text-primary"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
@@ -45,4 +46,8 @@ export default function BottomNav() {
       </div>
     </nav>
   );
-}
+});
+
+BottomNav.displayName = "BottomNav";
+
+export default BottomNav;
