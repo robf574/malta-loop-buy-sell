@@ -25,7 +25,7 @@ const GitHubPagesRedirect = () => {
     if (window.location.pathname.includes('/?/')) {
       const path = window.location.pathname.split('/?/')[1];
       if (path) {
-        window.history.replaceState(null, '', '/' + path);
+        window.history.replaceState(null, '', '/malta-loop-buy-sell/' + path);
       }
     }
   }, []);
@@ -39,7 +39,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <GitHubPagesRedirect />
-      <BrowserRouter>
+      <BrowserRouter basename="/malta-loop-buy-sell">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<Auth />} />
