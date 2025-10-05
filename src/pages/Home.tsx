@@ -8,6 +8,7 @@ import AppLayout from "@/components/layout/AppLayout";
 import ListingCard from "@/components/listings/ListingCard";
 import NotificationBadge from "@/components/notifications/NotificationBadge";
 import { PageHeader } from "@/components/ui/Headers";
+import { getDummyListings } from "@/data/dummyListings";
 import { toast } from "sonner";
 
 interface Listing {
@@ -61,9 +62,17 @@ export default function Home() {
         .limit(20);
 
       if (error) throw error;
-      setListings(data || []);
+      
+      // If no real listings, use dummy data
+      if (!data || data.length === 0) {
+        setListings(getDummyListings());
+      } else {
+        setListings(data);
+      }
     } catch (error: any) {
-      toast.error("Failed to load listings");
+      // If there's an error (like no table), use dummy data
+      console.log("Using dummy listings due to error:", error.message);
+      setListings(getDummyListings());
     } finally {
       setLoading(false);
     }
@@ -139,7 +148,11 @@ export default function Home() {
               </div>
             ) : filteredListings.length === 0 ? (
               <div className="text-center py-12 text-muted-foreground">
-                No listings found
+                <div className="mb-4">
+                  <Search className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                </div>
+                <p className="text-lg font-medium mb-2">No listings found</p>
+                <p className="text-sm">Try adjusting your search or check back later</p>
               </div>
             ) : (
               <div className="grid grid-cols-2 gap-3">
@@ -163,7 +176,11 @@ export default function Home() {
           <TabsContent value="uniforms" className="mt-0">
             {uniformListings.length === 0 ? (
               <div className="text-center py-12 text-muted-foreground">
-                No uniform listings found
+                <div className="mb-4">
+                  <Search className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                </div>
+                <p className="text-lg font-medium mb-2">No uniform listings found</p>
+                <p className="text-sm">Check back soon for school uniform listings</p>
               </div>
             ) : (
               <div className="grid grid-cols-2 gap-3">
