@@ -10,13 +10,13 @@ All colors MUST be HSL.
   :root {
     /* Malta-inspired color palette */
     --background: 40 40% 98%;
-    --foreground: 30 25% 20%;
+    --foreground: 30 25% 15%; /* Darker text */
 
     --card: 0 0% 100%;
-    --card-foreground: 30 25% 20%;
+    --card-foreground: 30 25% 15%; /* Darker text */
 
     --popover: 0 0% 100%;
-    --popover-foreground: 30 25% 20%;
+    --popover-foreground: 30 25% 15%; /* Darker text */
 
     /* Primary: Mediterranean Sea Blue */
     --primary: 200 85% 45%;
@@ -30,7 +30,7 @@ All colors MUST be HSL.
 
     /* Muted: Soft limestone */
     --muted: 40 30% 92%;
-    --muted-foreground: 35 15% 45%;
+    --muted-foreground: 35 15% 35%; /* Darker muted text */
 
     /* Accent: Bougainvillea Pink */
     --accent: 330 70% 55%;
@@ -75,11 +75,31 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Cormorant', -apple-system, BlinkMacSystemFont, 'Segoe UI', serif;
+    font-weight: 500;
+    color: hsl(30 25% 15%); /* Darker text */
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Playfair Display', serif;
+    font-weight: 800; /* Heavier weight */
+    color: hsl(30 25% 10%); /* Even darker for headings */
+    letter-spacing: -0.02em; /* Tighter letter spacing for impact */
+  }
+
+  /* Specific heading weights for hierarchy */
+  h1 {
+    font-weight: 900;
+    letter-spacing: -0.03em;
+  }
+
+  h2 {
+    font-weight: 800;
+    letter-spacing: -0.025em;
+  }
+
+  h3 {
     font-weight: 700;
+    letter-spacing: -0.02em;
   }
 
   /* Smooth scrolling */
