@@ -50,6 +50,11 @@ export default function Home() {
   }, []);
 
   const fetchListings = async () => {
+    // Set loading to false immediately and load dummy data
+    setLoading(false);
+    setListings(getDummyListings());
+    
+    // Try to fetch real data in background (optional)
     try {
       const { data, error } = await supabase
         .from("item_listings")
@@ -61,17 +66,14 @@ export default function Home() {
         .order("created_at", { ascending: false })
         .limit(20);
 
-      if (error) throw error;
-      
-      // Always use dummy data for now to populate the marketplace
-      console.log("Real listings found:", data?.length || 0);
-      setListings(getDummyListings());
+      if (!error && data && data.length > 0) {
+        console.log("Real listings found:", data.length);
+        setListings(data);
+      } else {
+        console.log("No real listings, using dummy data");
+      }
     } catch (error: any) {
-      // If there's an error (like no table), use dummy data
-      console.log("Using dummy listings due to error:", error.message);
-      setListings(getDummyListings());
-    } finally {
-      setLoading(false);
+      console.log("Error fetching real listings, using dummy data:", error.message);
     }
   };
 
