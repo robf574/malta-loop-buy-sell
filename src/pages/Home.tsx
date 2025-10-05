@@ -63,12 +63,9 @@ export default function Home() {
 
       if (error) throw error;
       
-      // If no real listings, use dummy data
-      if (!data || data.length === 0) {
-        setListings(getDummyListings());
-      } else {
-        setListings(data);
-      }
+      // Always use dummy data for now to populate the marketplace
+      console.log("Real listings found:", data?.length || 0);
+      setListings(getDummyListings());
     } catch (error: any) {
       // If there's an error (like no table), use dummy data
       console.log("Using dummy listings due to error:", error.message);
@@ -85,6 +82,12 @@ export default function Home() {
   );
 
   const uniformListings = filteredListings.filter(l => l.school_id !== null);
+
+  // Debug logging
+  console.log("Total listings:", listings.length);
+  console.log("Filtered listings:", filteredListings.length);
+  console.log("Uniform listings:", uniformListings.length);
+  console.log("Loading state:", loading);
 
   return (
     <AppLayout>
