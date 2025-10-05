@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Package, Plus } from "lucide-react";
+import { Package, Plus, Plane } from "lucide-react";
+import { Link } from "react-router-dom";
 import AppLayout from "@/components/layout/AppLayout";
 
 export default function Sell() {
@@ -37,6 +38,29 @@ export default function Sell() {
               <Plus className="mr-2 h-5 w-5" />
               Create Listing
             </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Plane className="h-5 w-5 text-primary" />
+              Leaving the Island?
+            </CardTitle>
+            <CardDescription>
+              Sell everything at once with a garage sale listing
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              Perfect for people moving away from Malta. Set an open day where buyers can come and purchase all your belongings at once.
+            </p>
+            <Link to="/leaving-island">
+              <Button variant="outline" className="w-full">
+                <Plane className="mr-2 h-4 w-4" />
+                Create Garage Sale Listing
+              </Button>
+            </Link>
           </CardContent>
         </Card>
 
