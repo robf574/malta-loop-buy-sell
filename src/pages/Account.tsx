@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -11,6 +12,7 @@ import { Profile } from "@/types";
 export default function Account() {
   const { user, profile, signOut, refreshProfile } = useAuth();
   const { loading } = useRequireAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
@@ -21,6 +23,7 @@ export default function Account() {
   const handleSignOut = async () => {
     try {
       await signOut();
+      navigate('/auth');
     } catch (error) {
       // Error handling is done in the context
     }
