@@ -22,6 +22,7 @@ const LeavingIsland = lazy(() => import("./pages/LeavingIsland"));
 const Inbox = lazy(() => import("./pages/Inbox"));
 const Account = lazy(() => import("./pages/Account"));
 const Notifications = lazy(() => import("./pages/Notifications"));
+const ListingDetail = lazy(() => import("./pages/ListingDetail"));
 
 const queryClient = new QueryClient();
 
@@ -65,6 +66,7 @@ const App = () => (
                 <Route path="/inbox" element={<Inbox />} />
                 <Route path="/notifications" element={<Notifications />} />
                 <Route path="/account" element={<Account />} />
+                <Route path="/listing/:id" element={<ListingDetail />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
