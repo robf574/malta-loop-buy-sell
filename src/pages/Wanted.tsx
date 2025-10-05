@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Search, Plus, MapPin } from "lucide-react";
 import AppLayout from "@/components/layout/AppLayout";
 import { Badge } from "@/components/ui/badge";
+import { SectionHeader } from "@/components/ui/Headers";
 
 interface WantedAd {
   id: string;
@@ -52,10 +53,10 @@ export default function Wanted() {
     <AppLayout>
       <div className="p-4 space-y-4">
         {/* Header */}
-        <div>
-          <h1 className="text-2xl font-bold">Wanted Ads</h1>
-          <p className="text-muted-foreground">Help others find what they're looking for</p>
-        </div>
+        <SectionHeader 
+          title="Wanted Ads" 
+          subtitle="Help others find what they're looking for"
+        />
 
         {/* Search */}
         <div className="relative">

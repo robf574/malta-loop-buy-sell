@@ -7,6 +7,7 @@ import { Bell, X, ExternalLink } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import AppLayout from "@/components/layout/AppLayout";
 import { toast } from "sonner";
+import { SectionHeader } from "@/components/ui/Headers";
 
 interface Notification {
   id: string;
@@ -130,14 +131,10 @@ export default function Notifications() {
     <AppLayout>
       <div className="p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">Notifications</h1>
-            {unreadCount > 0 && (
-              <p className="text-sm text-muted-foreground">
-                {unreadCount} unread notification{unreadCount !== 1 ? 's' : ''}
-              </p>
-            )}
-          </div>
+          <SectionHeader 
+            title="Notifications" 
+            subtitle={unreadCount > 0 ? `${unreadCount} unread notification${unreadCount !== 1 ? 's' : ''}` : undefined}
+          />
           {unreadCount > 0 && (
             <Button variant="outline" size="sm" onClick={markAllAsRead}>
               Mark all as read

@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Calendar as CalendarIcon, MapPin, Users, Plus } from "lucide-react";
 import AppLayout from "@/components/layout/AppLayout";
 import { format } from "date-fns";
+import { SectionHeader } from "@/components/ui/Headers";
 
 interface Event {
   id: string;
@@ -47,10 +48,10 @@ export default function Events() {
     <AppLayout>
       <div className="p-4 space-y-4">
         {/* Header */}
-        <div>
-          <h1 className="text-2xl font-bold">Community Events</h1>
-          <p className="text-muted-foreground">Discover local sales and meetups</p>
-        </div>
+        <SectionHeader 
+          title="Community Events" 
+          subtitle="Discover local sales and meetups"
+        />
 
         {/* Create Button */}
         <Button className="w-full" onClick={() => navigate("/events/create")}>

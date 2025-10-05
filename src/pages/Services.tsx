@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Sparkles, Search, MapPin, Phone, Mail, Globe } from "lucide-react";
 import AppLayout from "@/components/layout/AppLayout";
 import { useToast } from "@/hooks/use-toast";
+import { SectionHeader } from "@/components/ui/Headers";
 
 interface Service {
   id: string;
@@ -102,10 +103,10 @@ export default function Services() {
   return (
     <AppLayout>
       <div className="p-4 space-y-6">
-        <div>
-          <h1 className="text-3xl font-display font-bold text-foreground">Services in Malta</h1>
-          <p className="text-muted-foreground">Find trusted local services</p>
-        </div>
+        <SectionHeader 
+          title="Services in Malta" 
+          subtitle="Find trusted local services"
+        />
 
         <div className="flex gap-2">
           <div className="flex-1">
